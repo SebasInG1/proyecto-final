@@ -192,6 +192,7 @@
                 .then(response => response.json())
                 .then(data => console.log('Estudiante eliminado:', data))
                 .catch(error => console.error('Error:', error));
+                document.getElementById('delete_cod_e').value = '';
         });
 
         function mostrarFormulario() {

@@ -76,7 +76,7 @@ const getById = (grupo, callback) => {
 exports.getById = getById;
 const update = (imparte, callback) => {
     const queryString = 'UPDATE imparte SET cod_a = ?, id_p = ?, horario = ? WHERE grupo = ?';
-    db_1.db.query(queryString, [imparte.cod_a, imparte.grupo, imparte.horario, imparte.id_p], (err) => {
+    db_1.db.query(queryString, [imparte.cod_a, imparte.id_p, imparte.horario, imparte.grupo], (err) => {
         if (err) {
             callback(err);
         }
