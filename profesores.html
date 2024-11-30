@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Estudiantes</a>
+            <a href="profesores.html">Profesores</a>
+            <a href="asignatura.html">Asignaturas</a>
+            <a href="inscribe.html">Inscribe</a>
+            <a href="imparte.html">Imparte</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Profesores</h1>
+            <p>Por favor, llena la siguiente información para registrar un nuevo profesor:</p>
+            <form id="profesorFormPost">
+                <h3>Crear Profesor</h3>
+                <label for="id_p">Código:</label><br>
+                <input type="text" id="id_p" name="id_p"><br>
+                <label for="nom_p">Nombre:</label><br>
+                <input type="text" id="nom_p" name="nom_p"><br>
+                <label for="dir_p">Dirección:</label><br>
+                <input type="text" id="dir_p" name="dir_p"><br>
+                <label for="tel_p">Teléfono:</label><br>
+                <input type="text" id="tel_p" name="tel_p"><br>
+                <label for="profesion">Profesion:</label><br>
+                <input type="text" id="profesion" name="profesion"><br>
+                <input type="submit" value="Crear">
+            </form>
+
+            <form id="profesorFormGet">
+                <h3>Buscar Profesor</h3>
+                <label for="get_id_p">Código:</label><br>
+                <input type="text" id="get_id_p" name="id_p"><br>
+                <input type="submit" value="Buscar">
+            </form>
+
+            <form id="profesorFormPut">
+                <h3>Actualizar Profesor</h3>
+                <label for="id_p">Código:</label><br>
+                <input type="text" id="update_id_p" name="id_p"><br>
+                <label for="nom_p">Nombre:</label><br>
+                <input type="text" id="update_nom_p" name="nom_p"><br>
+                <label for="dir_p">Dirección:</label><br>
+                <input type="text" id="update_dir_p" name="dir_p"><br>
+                <label for="tel_p">Teléfono:</label><br>
+                <input type="text" id="update_tel_p" name="tel_p"><br>
+                <label for="profesion">Profesion:</label><br>
+                <input type="text" id="update_profesion" name="profesion"><br>
+                <input type="submit" value="Actualizar">
+            </form>
+
+            <form id="profesorFormDelete">
+                <h3>Eliminar Profesor</h3>
+                <label for="delete_id_p">Código:</label><br>
+                <input type="text" id="delete_id_p" name="id_p"><br>
+                <input type="submit" value="Eliminar">
+            </form>
+        </div>
+    </main>
+    <script>
+        document.getElementById('profesorFormPost').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const profesor = {
+                id_p: document.getElementById('id_p').value,
+                nom_p: document.getElementById('nom_p').value,
+                dir_p: document.getElementById('dir_p').value,
+                tel_p: document.getElementById('tel_p').value,
+                profesion: document.getElementById('profesion').value
+            };
+
+            fetch('http://127.0.0.1:3000/profesores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profesor),
+            })
+                .then(response => response.json())
+                .then(data => alert('Profesor creado:', data))
+                .catch(error => console.error('Error:', error));
+                document.getElementById('id_p').value = '';
+                document.getElementById('nom_p').value = '';
+                document.getElementById('dir_p').value = '';
+                document.getElementById('tel_p').value = '';
+                document.getElementById('profesion').value = '';
+        })
+
+        document.getElementById('profesorFormGet').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const id_p = document.getElementById('get_id_p').value;
+
+            fetch(`http://127.0.0.1:3000/profesores/${id_p}`, {
+                method: 'GET',  
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => response.json())
+                .then(data => console.log('Profesor encontrado:', data))
+                .catch(error => console.error('Error:', error));
+                document.getElementById('get_id_p').value = '';
+        });
+
+        document.getElementById('profesorFormPut').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const profesor = {
+                id_p: document.getElementById('update_id_p').value,
+                nom_p: document.getElementById('update_nom_p').value,
+                dir_p: document.getElementById('update_dir_p').value,
+                tel_p: document.getElementById('update_tel_p').value,
+                profesion: document.getElementById('update_profesion').value
+            };
+
+            fetch(`http://127.0.0.1:3000/profesores/${profesor.id_p}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profesor),
+            })
+                .then(response => response.json())
+                .then(data => alert('Profesor actualizado:', data))
+                .catch(error => console.error('Error:', error));
+                document.getElementById('update_id_p').value = '';
+                document.getElementById('update_nom_p').value = '';
+                document.getElementById('update_dir_p').value = '';
+                document.getElementById('update_tel_p').value = '';
+                document.getElementById('update_profesion').value = '';
+        });
+
+        document.getElementById('profesorFormDelete').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const id_p = document.getElementById('delete_id_p').value;
+
+            fetch(`http://127.0.0.1:3000/profesores/${id_p}`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            })
+                .then(response => response.json())
+                .then(data => alert('Profesor eliminado:', data))
+                .catch(error => console.error('Error:', error));
+                document.getElementById('delete_id_p').value = '';
+        });
+    </script>
+</body>
+</html>

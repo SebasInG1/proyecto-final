@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Estudiantes</a>
+            <a href="profesores.html">Profesores</a>
+            <a href="asignatura.html">Asignaturas</a>
+            <a href="inscribe.html">Inscribe</a>
+            <a href="imparte.html">Imparte</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Asiganturas</h1>
+            <p>Por favor, llena la siguiente información para registrar una nueva asignatura:</p>
+            <form id="asignaturaFormPost">
+                <h3>Crear Asignatura</h3>
+                <label for="cod_a">Código:</label><br>
+                <input type="text" id="cod_a" name="cod_a"><br>
+                <label for="nom_a">Nombre:</label><br>
+                <input type="text" id="nom_a" name="nom_a"><br>
+                <label for="int_h">Intencidad Horaria:</label><br>
+                <input type="text" id="int_h" name="int_h"><br>
+                <label for="creditos">Creditos:</label><br>
+                <input type="text" id="creditos" name="creditos"><br>
+                <input type="submit" value="Crear">
+            </form>
+
+            <form id="asignaturaFormGet">
+                <h3>Buscar Asignatura</h3>
+                <label for="get_cod_a">Código:</label><br>
+                <input type="text" id="get_cod_a" name="cod_a"><br>
+                <input type="submit" value="Buscar">
+            </form>
+
+            <form id="asignaturaFormPut">
+                <h3>Actualizar Asignatura</h3>
+                <label for="cod_a">Código:</label><br>
+                <input type="text" id="update_cod_a" name="cod_a"><br>
+                <label for="nom_a">Nombre:</label><br>
+                <input type="text" id="update_nom_a" name="nom_a"><br>
+                <label for="int_h">Intencidad Horaria:</label><br>
+                <input type="text" id="update_int_h" name="int_h"><br>
+                <label for="creditos">Creditos:</label><br>
+                <input type="text" id="update_creditos" name="creditos"><br>
+                <input type="submit" value="Actualizar">
+            </form>
+
+            <form id="asignaturaFormDelete">
+                <h3>Eliminar Asignatura</h3>
+                <label for="delete_cod_a">Código:</label><br>
+                <input type="text" id="delete_cod_a" name="cod_a"><br>
+                <input type="submit" value="Eliminar">
+            </form>
+        </div>
+    </main>
+    <script>
+        document.getElementById("asignaturaFormPost").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const asignatura = {
+                cod_a: document.getElementById("cod_a").value,
+                nom_a: document.getElementById("nom_a").value,
+                int_h: document.getElementById("int_h").value,
+                creditos: document.getElementById("creditos").value
+            };
+            fetch("http://127.0.0.1:3000/asignaturas", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(asignatura)
+            })
+                .then(response => response.json())
+                .then(data => alert("Asignatura creada:", data))
+                .catch(error => console.error("Error:", error));
+            document.getElementById("cod_a").value = "";
+            document.getElementById("nom_a").value = "";
+            document.getElementById("int_h").value = "";
+            document.getElementById("creditos").value = "";
+        });
+
+        document.getElementById("asignaturaFormGet").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const cod_a = document.getElementById("get_cod_a").value;
+            fetch(`http://127.0.0.1:3000/asignaturas/${cod_a}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(response => response.json())
+                .then(data => console.log("Asignatura encontrada:", data))
+                .catch(error => console.error("Error:", error));
+            document.getElementById("get_cod_a").value = "";
+        });
+
+        document.getElementById("asignaturaFormPut").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const asignatura = {
+                cod_a: document.getElementById("update_cod_a").value,
+                nom_a: document.getElementById("update_nom_a").value,
+                int_h: document.getElementById("update_int_h").value,
+                creditos: document.getElementById("update_creditos").value
+            };
+            fetch(`http://127.0.0.1:3000/asignaturas/${asignatura.cod_a}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(asignatura)
+            })
+                .then(response => response.json())
+                .then(data => alert("Asignatura actualizada:", data))
+                .catch(error => console.error("Error:", error));
+            document.getElementById("update_cod_a").value = "";
+            document.getElementById("update_nom_a").value = "";
+            document.getElementById("update_int_h").value = "";
+            document.getElementById("update_creditos").value = "";
+        });
+
+        document.getElementById("asignaturaFormDelete").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const cod_a = document.getElementById("delete_cod_a").value;
+            fetch(`http://127.0.0.1:3000/asignaturas/${cod_a}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(response => response.json())
+                .then(data => alert("Asignatura eliminada:", data))
+                .catch(error => console.error("Error:", error));
+            document.getElementById("delete_cod_a").value = "";
+        });
+    </script>
+</body>
+</html>

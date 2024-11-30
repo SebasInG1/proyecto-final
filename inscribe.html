@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Estudiantes</a>
+            <a href="profesores.html">Profesores</a>
+            <a href="asignatura.html">Asignaturas</a>
+            <a href="inscribe.html">Inscribe</a>
+            <a href="imparte.html">Imparte</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Registro de Inscripciones</h1>
+            <p>Por favor, llena la siguiente información para registrar una nueva inscripcion</p>
+            <form id="estudianteFormPost">
+                <h3>Crear las notas del etudiante</h3>
+                <label for="cod_e">Código estudiante:</label><br>
+                <input type="text" id="cod_e" name="cod_e"><br>
+                <label for="cod_a">Codigo asignatura</label>  
+                <input type="text" id="cod_a" name="cod_a"><br>
+                <label for="id_p">Código profesor</label>
+                <input type="text" id="id_p" name="id_p"><br>
+                <label for="grupo">grupo</label>
+                <input type="text" id="grupo" name="grupo"><br>
+                <label for="n1">Nota 1:</label>
+                <input type="text" id="n1" name="n1"><br>
+                <label for="n2">Nota 2:</label>
+                <input type="text" id="n2" name="n2"><br>
+                <label for="n3">Nota 3:</label>
+                <input type="text" id="n3" name="n3"><br>
+                <label for="cod_i">Codigo inscrito</label>
+                <input type="text" id="cod_i" name="cod_i"><br>
+                <input type="submit" value="Crear">
+            </form>
+
+            <form id="estudianteFormGet">
+                <h3>Buscar inscripcion</h3>
+                <label for="get_cod_i">Código:</label><br>
+                <input type="text" id="get_cod_i" name="cod_i"><br>
+                <input type="submit" value="Buscar">
+            </form>
+            <div id="estudianteInfo"></div>
+
+            <form id="estudianteFormPut">
+                <h3>Actualizar Inscripcion de nota:</h3>
+                <label for="cod_e">Código estudiante:</label><br>
+                <input type="text" id="update_cod_e" name="cod_e"><br>
+                <label for="cod_a">codigo asignatura:</label><br>
+                <input type="text" id="update_cod_a" name="cod_a"><br>
+                <label for="id_p">Código profesor:</label><br>
+                <input type="text" id="update_id_p" name="id_p"><br>
+                <label for="grupo">grupo:</label><br>
+                <input type="text" id="update_grupo" name="grupo"><br>
+                <label for="n1">Nota 1:</label>
+                <input type="text" id="update_n1" name="n1"><br>
+                <label for="n2">Nota 2:</label>
+                <input type="text" id="update_n2" name="n2"><br>
+                <label for="n3">Nota 3:</label>
+                <input type="text" id="update_n3" name="n3"><br>
+                <label for="cod_i">Inscripcion</label>
+                <input type="text" id="update_cod_i" name="cod_i">
+                <input type="submit" value="Actualizar">
+            </form>
+
+            <form id="estudianteFormDelete">
+                <h3>Eliminar Inscripcion</h3>
+                <label for="delete_cod_i">Inscripcion:</label><br>
+                <input type="text" id="delete_cod_i" name="cod_i"><br>
+                <input type="submit" value="Eliminar">
+            </form>
+        </div>
+    </main>
+    <script>
+        document.getElementById("estudianteFormPost").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const inscribe = {
+                cod_e: document.getElementById("cod_e").value,
+                cod_a: document.getElementById("cod_a").value,
+                id_p: document.getElementById("id_p").value,
+                grupo: document.getElementById("grupo").value,
+                n1: document.getElementById("n1").value,
+                n2: document.getElementById("n2").value,
+                n3: document.getElementById("n3").value,
+                cod_i: document.getElementById("cod_i").value
+            };
+
+            fetch("http://127.0.0.1:3000/inscribe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(inscribe)
+            })
+                .then(response => response.json())
+                .then(data => alert("Inscripcion creada:", data))
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("cod_e").value = "";
+            document.getElementById("cod_a").value = "";
+            document.getElementById("id_p").value = ""; 
+            document.getElementById("grupo").value = "";
+            document.getElementById("n1").value = "";
+            document.getElementById("n2").value = "";
+            document.getElementById("n3").value = "";
+            document.getElementById("cod_i").value = "";
+        });
+
+        document.getElementById("estudianteFormGet").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const cod_i = document.getElementById("get_cod_i").value;
+
+            fetch(`http://127.0.0.1:3000/inscribe/${cod_i}`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(response => response.json())
+                .then(data => {console.log("Inscripcion encontrada:", data);
+                let nota = (data.data.n1)*0.3 + (data.data.n2)*0.3 + (data.data.n3)*0.4 ;
+                document.getElementById("estudianteInfo").innerHTML = `
+                    <p><strong>Código:</strong> ${data.data.cod_i}</p>
+                    <p><strong>Estudiante:</strong> ${data.data.cod_e}</p>
+                    <p><strong>Asignatura:</strong> ${data.data.cod_a}</p>
+                    <p><strong>Profesor:</strong> ${data.data.id_p}</p>
+                    <p><strong>Grupo:</strong> ${data.data.grupo}</p>
+                    <p><strong>Nota 1:</strong> ${data.data.n1}</p>
+                    <p><strong>Nota 2:</strong> ${data.data.n2}</p>
+                    <p><strong>Nota 3:</strong> ${data.data.n3}</p>
+                    <p><strong>TOTAL:</strong> ${nota} </p>
+                `;
+            })
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("get_cod_i").value = "";
+        });
+
+        document.getElementById("estudianteFormPut").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const inscribe = {
+                cod_e: document.getElementById("update_cod_e").value,
+                cod_a: document.getElementById("update_cod_a").value,
+                id_p: document.getElementById("update_id_p").value,
+                grupo: document.getElementById("update_grupo").value,
+                n1: document.getElementById("update_n1").value,
+                n2: document.getElementById("update_n2").value,
+                n3: document.getElementById("update_n3").value,
+                cod_i: document.getElementById("update_cod_i").value
+            };
+
+            fetch(`http://127.0.0.1:3000/inscribe/${inscribe.cod_i}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(inscribe)
+            })
+                .then(response => response.json())
+                .then(data => alert("Inscripcion actualizada:", data))
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("update_cod_e").value = "";
+            document.getElementById("update_cod_a").value = "";
+            document.getElementById("update_id_p").value = "";
+            document.getElementById("update_grupo").value = "";
+            document.getElementById("update_n1").value = "";
+            document.getElementById("update_n2").value = "";
+            document.getElementById("update_n3").value = "";
+            document.getElementById("update_cod_i").value = "";
+        });
+            
+        document.getElementById("estudianteFormDelete").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const cod_i = document.getElementById("delete_cod_i").value;
+
+            fetch(`http://127.0.0.1:3000/inscribe/${cod_i}`, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            })
+                .then(response => response.json())
+                .then(data => alert("Inscripcion eliminada:", data))
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("delete_cod_i").value = "";
+        });
+    </script>
+
+</body>
+</html>

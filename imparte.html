@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html">Estudiantes</a>
+            <a href="profesores.html">Profesores</a>
+            <a href="asignatura.html">Asignaturas</a>
+            <a href="inscribe.html">Inscribe</a>
+            <a href="imparte.html">Imparte</a>
+        </nav>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Imparte</h1>
+            <p>Por favor, llena la siguiente información para registrar un nuevo estudiante:</p>
+            <form id="estudianteFormPost">
+                <h3>Crear las notas del etudiante</h3>
+                <label for="cod_a">Codigo asignatura</label>  
+                <input type="text" id="cod_a" name="cod_a"><br>
+                <label for="id_p">Código profesor</label>
+                <input type="text" id="id_p" name="id_p"><br>
+                <label for="grupo">grupo</label>
+                <input type="text" id="grupo" name="grupo"><br>
+                <label for="horario">Horario</label>
+                <input type="text" id="horario" name="horario"><br>
+                <input type="submit" value="Crear">
+            </form>
+
+            <form id="estudianteFormGet">
+                <h3>Buscar Grupo</h3>
+                <label for="get_grupo">Grupo:</label><br>
+                <input type="text" id="get_grupo" name="grupo"><br>
+                <input type="submit" value="Buscar">
+            </form>
+
+            <form id="estudianteFormPut">
+                <h3>Actualizar Grupo</h3>
+                <label for="update_id_p">Código profesor:</label><br>
+                <input type="text" id="update_id_p" name="id_p"><br>
+                <label for="update_cod_a">codigo asignatura:</label><br>
+                <input type="text" id="update_cod_a" name="cod_a"><br>
+                <label for="update_grupo">Grupo:</label><br>
+                <input type="text" id="update_grupo" name="grupo"><br>
+                <label for="update_horario">Horario:</label><br>
+                <input type="text" id="update_horario" name="horario"><br>
+                <input type="submit" value="Actualizar">
+            </form>
+
+            <form id="estudianteFormDelete">
+                <h3>Eliminar Grupo</h3>
+                <label for="delete_grupo">Grupo:</label><br>
+                <input type="text" id="delete_grupo" name="grupo"><br>
+                <input type="submit" value="Eliminar">
+            </form>
+        </div>
+    </main>
+    <script>
+        document.getElementById("estudianteFormPost").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const imparte = {
+                cod_a: document.getElementById("cod_a").value,
+                id_p: document.getElementById("id_p").value,
+                grupo: document.getElementById("grupo").value,
+                horario: document.getElementById("horario").value
+            };
+
+            fetch("http://localhost:3000/imparte", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(imparte)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Imparte creado:", data);
+                })
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("cod_a").value = "";
+            document.getElementById("id_p").value = "";
+            document.getElementById("grupo").value = "";
+            document.getElementById("horario").value = "";
+        });
+
+        document.getElementById("estudianteFormGet").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const grupo = document.getElementById("get_grupo").value;
+
+            fetch(`http://localhost:3000/imparte/${grupo}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Imparte encontrado:", data);
+                })
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("get_grupo").value = "";            
+        });
+
+        document.getElementById("estudianteFormPut").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const imparte = {
+                id_p: document.getElementById("update_id_p").value,
+                cod_a: document.getElementById("update_cod_a").value,
+                grupo: document.getElementById("update_grupo").value,
+                horario: document.getElementById("update_horario").value
+            };
+            
+            fetch("http://localhost:3000/imparte", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(imparte)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Imparte actualizado:", data);
+                })
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("update_id_p").value = "";
+            document.getElementById("update_cod_a").value = "";
+            document.getElementById("update_grupo").value = "";
+            document.getElementById("update_horario").value = "";
+        });
+
+        document.getElementById("estudianteFormDelete").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const grupo = document.getElementById("delete_grupo").value;
+
+            fetch(`http://localhost:3000/imparte/${grupo}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert("Imparte eliminado:", data);
+                })
+                .catch(error => console.error("Error:", error));
+
+            document.getElementById("delete_grupo").value = "";            
+        });
+    </script>
+</body>
+</html>
