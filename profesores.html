@@ -20,49 +20,64 @@
         <div class="container">
             <h1>Profesores</h1>
             <p>Por favor, llena la siguiente información para registrar un nuevo profesor:</p>
-            <form id="profesorFormPost">
-                <h3>Crear Profesor</h3>
-                <label for="id_p">Código:</label><br>
-                <input type="text" id="id_p" name="id_p"><br>
-                <label for="nom_p">Nombre:</label><br>
-                <input type="text" id="nom_p" name="nom_p"><br>
-                <label for="dir_p">Dirección:</label><br>
-                <input type="text" id="dir_p" name="dir_p"><br>
-                <label for="tel_p">Teléfono:</label><br>
-                <input type="text" id="tel_p" name="tel_p"><br>
-                <label for="profesion">Profesion:</label><br>
-                <input type="text" id="profesion" name="profesion"><br>
-                <input type="submit" value="Crear">
-            </form>
 
-            <form id="profesorFormGet">
-                <h3>Buscar Profesor</h3>
-                <label for="get_id_p">Código:</label><br>
-                <input type="text" id="get_id_p" name="id_p"><br>
-                <input type="submit" value="Buscar">
-            </form>
+            <button onclick="mostrarFormulario()">Crear</button>
+            <button onclick="buscarFormulario()">Buscar</button>
+            <button onclick="eliminarFormulario()">Eliminar</button>
+            <button onclick="actualizarFormulario()">Actualizar</button>
 
-            <form id="profesorFormPut">
-                <h3>Actualizar Profesor</h3>
-                <label for="id_p">Código:</label><br>
-                <input type="text" id="update_id_p" name="id_p"><br>
-                <label for="nom_p">Nombre:</label><br>
-                <input type="text" id="update_nom_p" name="nom_p"><br>
-                <label for="dir_p">Dirección:</label><br>
-                <input type="text" id="update_dir_p" name="dir_p"><br>
-                <label for="tel_p">Teléfono:</label><br>
-                <input type="text" id="update_tel_p" name="tel_p"><br>
-                <label for="profesion">Profesion:</label><br>
-                <input type="text" id="update_profesion" name="profesion"><br>
-                <input type="submit" value="Actualizar">
-            </form>
+            <div id="pust" style="display: none;">
+                <form id="profesorFormPost">
+                    <h3>Crear Profesor</h3>
+                    <label for="id_p">Código:</label><br>
+                    <input type="text" id="id_p" name="id_p"><br>
+                    <label for="nom_p">Nombre:</label><br>
+                    <input type="text" id="nom_p" name="nom_p"><br>
+                    <label for="dir_p">Dirección:</label><br>
+                    <input type="text" id="dir_p" name="dir_p"><br>
+                    <label for="tel_p">Teléfono:</label><br>
+                    <input type="text" id="tel_p" name="tel_p"><br>
+                    <label for="profesion">Profesion:</label><br>
+                    <input type="text" id="profesion" name="profesion"><br>
+                    <input type="submit" value="Crear">
+                </form>
+            </div>
 
-            <form id="profesorFormDelete">
-                <h3>Eliminar Profesor</h3>
-                <label for="delete_id_p">Código:</label><br>
-                <input type="text" id="delete_id_p" name="id_p"><br>
-                <input type="submit" value="Eliminar">
-            </form>
+            <div id="get" style="display: none;">
+                <form id="profesorFormGet">
+                    <h3>Buscar Profesor</h3>
+                    <label for="get_id_p">Código:</label><br>
+                    <input type="text" id="get_id_p" name="id_p"><br>
+                    <input type="submit" value="Buscar">
+                </form>
+                <div id="profesorInfo"></div>
+            </div>
+
+            <div id="put" style="display: none;">
+                <form id="profesorFormPut">
+                    <h3>Actualizar Profesor</h3>
+                    <label for="id_p">Código:</label><br>
+                    <input type="text" id="update_id_p" name="id_p"><br>
+                    <label for="nom_p">Nombre:</label><br>
+                    <input type="text" id="update_nom_p" name="nom_p"><br>
+                    <label for="dir_p">Dirección:</label><br>
+                    <input type="text" id="update_dir_p" name="dir_p"><br>
+                    <label for="tel_p">Teléfono:</label><br>
+                    <input type="text" id="update_tel_p" name="tel_p"><br>
+                    <label for="profesion">Profesion:</label><br>
+                    <input type="text" id="update_profesion" name="profesion"><br>
+                    <input type="submit" value="Actualizar">
+                </form>
+            </div>
+
+            <div id="delete" style="display: none;">
+                <form id="profesorFormDelete">
+                    <h3>Eliminar Profesor</h3>
+                    <label for="delete_id_p">Código:</label><br>
+                    <input type="text" id="delete_id_p" name="id_p"><br>
+                    <input type="submit" value="Eliminar">
+                </form>
+            </div>
         </div>
     </main>
     <script>
@@ -104,7 +119,15 @@
                 },
             })
                 .then(response => response.json())
-                .then(data => console.log('Profesor encontrado:', data))
+                .then(data => {console.log('Profesor encontrado:', data);
+                    const profesorInfo = document.getElementById('profesorInfo').innerHTML = `
+                        <p><strong>Código:</strong> ${data.data.id_p}</p>
+                        <p><strong>Nombre:</strong> ${data.data.nom_p}</p>
+                        <p><strong>Dirección:</strong> ${data.data.dir_p}</p>
+                        <p><strong>Teléfono:</strong> ${data.data.tel_p}</p>
+                        <p><strong>Profesion:</strong> ${data.data.profesion}</p>
+                    `;
+                })
                 .catch(error => console.error('Error:', error));
                 document.getElementById('get_id_p').value = '';
         });
@@ -149,6 +172,30 @@
                 .catch(error => console.error('Error:', error));
                 document.getElementById('delete_id_p').value = '';
         });
+        function mostrarFormulario() {
+            document.getElementById('pust').style.display = 'block';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function buscarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'block';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function actualizarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function eliminarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
     </script>
 </body>
 </html>

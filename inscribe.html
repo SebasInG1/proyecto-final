@@ -20,62 +20,76 @@
         <div class="container">
             <h1>Registro de Inscripciones</h1>
             <p>Por favor, llena la siguiente información para registrar una nueva inscripcion</p>
-            <form id="estudianteFormPost">
-                <h3>Crear las notas del etudiante</h3>
-                <label for="cod_e">Código estudiante:</label><br>
-                <input type="text" id="cod_e" name="cod_e"><br>
-                <label for="cod_a">Codigo asignatura</label>  
-                <input type="text" id="cod_a" name="cod_a"><br>
-                <label for="id_p">Código profesor</label>
-                <input type="text" id="id_p" name="id_p"><br>
-                <label for="grupo">grupo</label>
-                <input type="text" id="grupo" name="grupo"><br>
-                <label for="n1">Nota 1:</label>
-                <input type="text" id="n1" name="n1"><br>
-                <label for="n2">Nota 2:</label>
-                <input type="text" id="n2" name="n2"><br>
-                <label for="n3">Nota 3:</label>
-                <input type="text" id="n3" name="n3"><br>
-                <label for="cod_i">Codigo inscrito</label>
-                <input type="text" id="cod_i" name="cod_i"><br>
-                <input type="submit" value="Crear">
-            </form>
 
-            <form id="estudianteFormGet">
-                <h3>Buscar inscripcion</h3>
-                <label for="get_cod_i">Código:</label><br>
-                <input type="text" id="get_cod_i" name="cod_i"><br>
-                <input type="submit" value="Buscar">
-            </form>
-            <div id="estudianteInfo"></div>
+            <button onclick="mostrarFormulario()">Crear</button>
+            <button onclick="buscarFormulario()">Buscar</button>
+            <button onclick="eliminarFormulario()">Eliminar</button>
+            <button onclick="actualizarFormulario()">Actualizar</button>
 
-            <form id="estudianteFormPut">
-                <h3>Actualizar Inscripcion de nota:</h3>
-                <label for="cod_e">Código estudiante:</label><br>
-                <input type="text" id="update_cod_e" name="cod_e"><br>
-                <label for="cod_a">codigo asignatura:</label><br>
-                <input type="text" id="update_cod_a" name="cod_a"><br>
-                <label for="id_p">Código profesor:</label><br>
-                <input type="text" id="update_id_p" name="id_p"><br>
-                <label for="grupo">grupo:</label><br>
-                <input type="text" id="update_grupo" name="grupo"><br>
-                <label for="n1">Nota 1:</label>
-                <input type="text" id="update_n1" name="n1"><br>
-                <label for="n2">Nota 2:</label>
-                <input type="text" id="update_n2" name="n2"><br>
-                <label for="n3">Nota 3:</label>
-                <input type="text" id="update_n3" name="n3"><br>
-                <label for="cod_i">Inscripcion</label>
-                <input type="text" id="update_cod_i" name="cod_i">
-                <input type="submit" value="Actualizar">
-            </form>
+            <div id="pust" style="display: none;">
+                <form id="estudianteFormPost">
+                    <h3>Crear las notas del etudiante</h3>
+                    <label for="cod_e">Código estudiante:</label><br>
+                    <input type="text" id="cod_e" name="cod_e"><br>
+                    <label for="cod_a">Codigo asignatura</label>  
+                    <input type="text" id="cod_a" name="cod_a"><br>
+                    <label for="id_p">Código profesor</label>
+                    <input type="text" id="id_p" name="id_p"><br>
+                    <label for="grupo">grupo</label>
+                    <input type="text" id="grupo" name="grupo"><br>
+                    <label for="n1">Nota 1:</label>
+                    <input type="text" id="n1" name="n1"><br>
+                    <label for="n2">Nota 2:</label>
+                    <input type="text" id="n2" name="n2"><br>
+                    <label for="n3">Nota 3:</label>
+                    <input type="text" id="n3" name="n3"><br>
+                    <label for="cod_i">Codigo inscrito</label>
+                    <input type="text" id="cod_i" name="cod_i"><br>
+                    <input type="submit" value="Crear">
+                </form>
+            </div>
 
-            <form id="estudianteFormDelete">
-                <h3>Eliminar Inscripcion</h3>
-                <label for="delete_cod_i">Inscripcion:</label><br>
-                <input type="text" id="delete_cod_i" name="cod_i"><br>
-                <input type="submit" value="Eliminar">
-            </form>
+            <div id="get" style="display: none;">
+                <form id="estudianteFormGet">
+                    <h3>Buscar inscripcion</h3>
+                    <label for="get_cod_i">Código:</label><br>
+                    <input type="text" id="get_cod_i" name="cod_i"><br>
+                    <input type="submit" value="Buscar">
+                </form>
+                <div id="estudianteInfo"></div>
+            </div>
+
+            <div id="put" style="display: none;">
+                <form id="estudianteFormPut">
+                    <h3>Actualizar Inscripcion de nota:</h3>
+                    <label for="cod_e">Código estudiante:</label><br>
+                    <input type="text" id="update_cod_e" name="cod_e"><br>
+                    <label for="cod_a">codigo asignatura:</label><br>
+                    <input type="text" id="update_cod_a" name="cod_a"><br>
+                    <label for="id_p">Código profesor:</label><br>
+                    <input type="text" id="update_id_p" name="id_p"><br>
+                    <label for="grupo">grupo:</label><br>
+                    <input type="text" id="update_grupo" name="grupo"><br>
+                    <label for="n1">Nota 1:</label>
+                    <input type="text" id="update_n1" name="n1"><br>
+                    <label for="n2">Nota 2:</label>
+                    <input type="text" id="update_n2" name="n2"><br>
+                    <label for="n3">Nota 3:</label>
+                    <input type="text" id="update_n3" name="n3"><br>
+                    <label for="cod_i">Inscripcion</label>
+                    <input type="text" id="update_cod_i" name="cod_i">
+                    <input type="submit" value="Actualizar">
+                </form>
+            </div>
+
+            <div id="delete" style="display: none;">
+                <form id="estudianteFormDelete">
+                    <h3>Eliminar Inscripcion</h3>
+                    <label for="delete_cod_i">Inscripcion:</label><br>
+                    <input type="text" id="delete_cod_i" name="cod_i"><br>
+                    <input type="submit" value="Eliminar">
+                </form>
+            </div>
         </div>
     </main>
     <script>
@@ -189,6 +203,30 @@
 
             document.getElementById("delete_cod_i").value = "";
         });
+        function mostrarFormulario() {
+            document.getElementById('pust').style.display = 'block';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function buscarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'block';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function actualizarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function eliminarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
     </script>
 
 </body>

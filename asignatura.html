@@ -20,45 +20,60 @@
         <div class="container">
             <h1>Asiganturas</h1>
             <p>Por favor, llena la siguiente información para registrar una nueva asignatura:</p>
-            <form id="asignaturaFormPost">
-                <h3>Crear Asignatura</h3>
-                <label for="cod_a">Código:</label><br>
-                <input type="text" id="cod_a" name="cod_a"><br>
-                <label for="nom_a">Nombre:</label><br>
-                <input type="text" id="nom_a" name="nom_a"><br>
-                <label for="int_h">Intencidad Horaria:</label><br>
-                <input type="text" id="int_h" name="int_h"><br>
-                <label for="creditos">Creditos:</label><br>
-                <input type="text" id="creditos" name="creditos"><br>
-                <input type="submit" value="Crear">
-            </form>
 
-            <form id="asignaturaFormGet">
-                <h3>Buscar Asignatura</h3>
-                <label for="get_cod_a">Código:</label><br>
-                <input type="text" id="get_cod_a" name="cod_a"><br>
-                <input type="submit" value="Buscar">
-            </form>
+            <button onclick="mostrarFormulario()">Crear</button>
+            <button onclick="buscarFormulario()">Buscar</button>
+            <button onclick="eliminarFormulario()">Eliminar</button>
+            <button onclick="actualizarFormulario()">Actualizar</button>
 
-            <form id="asignaturaFormPut">
-                <h3>Actualizar Asignatura</h3>
-                <label for="cod_a">Código:</label><br>
-                <input type="text" id="update_cod_a" name="cod_a"><br>
-                <label for="nom_a">Nombre:</label><br>
-                <input type="text" id="update_nom_a" name="nom_a"><br>
-                <label for="int_h">Intencidad Horaria:</label><br>
-                <input type="text" id="update_int_h" name="int_h"><br>
-                <label for="creditos">Creditos:</label><br>
-                <input type="text" id="update_creditos" name="creditos"><br>
-                <input type="submit" value="Actualizar">
-            </form>
+            <div id="pust" style="display: none;">
+                <form id="asignaturaFormPost">
+                    <h3>Crear Asignatura</h3>
+                    <label for="cod_a">Código:</label><br>
+                    <input type="text" id="cod_a" name="cod_a"><br>
+                    <label for="nom_a">Nombre:</label><br>
+                    <input type="text" id="nom_a" name="nom_a"><br>
+                    <label for="int_h">Intencidad Horaria:</label><br>
+                    <input type="text" id="int_h" name="int_h"><br>
+                    <label for="creditos">Creditos:</label><br>
+                    <input type="text" id="creditos" name="creditos"><br>
+                    <input type="submit" value="Crear">
+                </form>
+            </div>
 
-            <form id="asignaturaFormDelete">
-                <h3>Eliminar Asignatura</h3>
-                <label for="delete_cod_a">Código:</label><br>
-                <input type="text" id="delete_cod_a" name="cod_a"><br>
-                <input type="submit" value="Eliminar">
-            </form>
+            <div id="get" style="display: none;">
+                <form id="asignaturaFormGet">
+                    <h3>Buscar Asignatura</h3>
+                    <label for="get_cod_a">Código:</label><br>
+                    <input type="text" id="get_cod_a" name="cod_a"><br>
+                    <input type="submit" value="Buscar">
+                </form>
+                <div id="asignaturaInfo"></div>
+            </div>
+
+            <div id="put" style="display: none;">
+                <form id="asignaturaFormPut">
+                    <h3>Actualizar Asignatura</h3>
+                    <label for="cod_a">Código:</label><br>
+                    <input type="text" id="update_cod_a" name="cod_a"><br>
+                    <label for="nom_a">Nombre:</label><br>
+                    <input type="text" id="update_nom_a" name="nom_a"><br>
+                    <label for="int_h">Intencidad Horaria:</label><br>
+                    <input type="text" id="update_int_h" name="int_h"><br>
+                    <label for="creditos">Creditos:</label><br>
+                    <input type="text" id="update_creditos" name="creditos"><br>
+                    <input type="submit" value="Actualizar">
+                </form>
+            </div>
+
+            <div id="delete" style="display: none;">
+                <form id="asignaturaFormDelete">
+                    <h3>Eliminar Asignatura</h3>
+                    <label for="delete_cod_a">Código:</label><br>
+                    <input type="text" id="delete_cod_a" name="cod_a"><br>
+                    <input type="submit" value="Eliminar">
+                </form>
+            </div>
         </div>
     </main>
     <script>
@@ -92,7 +107,14 @@
                 headers: { "Content-Type": "application/json" },
             })
                 .then(response => response.json())
-                .then(data => console.log("Asignatura encontrada:", data))
+                .then(data => {console.log("Asignatura encontrada:", data)
+                    const asignaturaInfo = document.getElementById("asignaturaInfo").innerHTML = `
+                        <p><strong>Código:</strong> ${data.data.cod_a}</p>
+                        <p><strong>Nombre:</strong> ${data.data.nom_a}</p>
+                        <p><strong>Intencidad Horaria:</strong> ${data.data.int_h}</p>
+                        <p><strong>Creditos:</strong> ${data.data.creditos}</p>
+                    `;
+                })
                 .catch(error => console.error("Error:", error));
             document.getElementById("get_cod_a").value = "";
         });
@@ -131,6 +153,30 @@
                 .catch(error => console.error("Error:", error));
             document.getElementById("delete_cod_a").value = "";
         });
+        function mostrarFormulario() {
+            document.getElementById('pust').style.display = 'block';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function buscarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'block';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function actualizarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function eliminarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
     </script>
 </body>
 </html>

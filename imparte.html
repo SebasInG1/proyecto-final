@@ -20,45 +20,60 @@
         <div class="container">
             <h1>Imparte</h1>
             <p>Por favor, llena la siguiente información para registrar un nuevo estudiante:</p>
-            <form id="estudianteFormPost">
-                <h3>Crear las notas del etudiante</h3>
-                <label for="cod_a">Codigo asignatura</label>  
-                <input type="text" id="cod_a" name="cod_a"><br>
-                <label for="id_p">Código profesor</label>
-                <input type="text" id="id_p" name="id_p"><br>
-                <label for="grupo">grupo</label>
-                <input type="text" id="grupo" name="grupo"><br>
-                <label for="horario">Horario</label>
-                <input type="text" id="horario" name="horario"><br>
-                <input type="submit" value="Crear">
-            </form>
+            
+            <button onclick="mostrarFormulario()">Crear</button>
+            <button onclick="buscarFormulario()">Buscar</button>
+            <button onclick="eliminarFormulario()">Eliminar</button>
+            <button onclick="actualizarFormulario()">Actualizar</button>
 
-            <form id="estudianteFormGet">
-                <h3>Buscar Grupo</h3>
-                <label for="get_grupo">Grupo:</label><br>
-                <input type="text" id="get_grupo" name="grupo"><br>
-                <input type="submit" value="Buscar">
-            </form>
+            <div id="pust" style="display: none;">
+                <form id="estudianteFormPost">
+                    <h3>Crear las grupo y horario</h3>
+                    <label for="cod_a">Codigo asignatura</label>  
+                    <input type="text" id="cod_a" name="cod_a"><br>
+                    <label for="id_p">Código profesor</label>
+                    <input type="text" id="id_p" name="id_p"><br>
+                    <label for="grupo">grupo</label>
+                    <input type="text" id="grupo" name="grupo"><br>
+                    <label for="horario">Horario</label>
+                    <input type="text" id="horario" name="horario"><br>
+                    <input type="submit" value="Crear">
+                </form>
+            </div>
 
-            <form id="estudianteFormPut">
-                <h3>Actualizar Grupo</h3>
-                <label for="update_id_p">Código profesor:</label><br>
-                <input type="text" id="update_id_p" name="id_p"><br>
-                <label for="update_cod_a">codigo asignatura:</label><br>
-                <input type="text" id="update_cod_a" name="cod_a"><br>
-                <label for="update_grupo">Grupo:</label><br>
-                <input type="text" id="update_grupo" name="grupo"><br>
-                <label for="update_horario">Horario:</label><br>
-                <input type="text" id="update_horario" name="horario"><br>
-                <input type="submit" value="Actualizar">
-            </form>
+            <div id="get" style="display: none;">
+                <form id="estudianteFormGet">
+                    <h3>Buscar Grupo</h3>
+                    <label for="get_grupo">Grupo:</label><br>
+                    <input type="text" id="get_grupo" name="grupo"><br>
+                    <input type="submit" value="Buscar">
+                </form>
+                <div id="estudianteInfo"></div>
+            </div>
 
-            <form id="estudianteFormDelete">
-                <h3>Eliminar Grupo</h3>
-                <label for="delete_grupo">Grupo:</label><br>
-                <input type="text" id="delete_grupo" name="grupo"><br>
-                <input type="submit" value="Eliminar">
-            </form>
+            <div id="put" style="display: none;">
+                <form id="estudianteFormPut">
+                    <h3>Actualizar Grupo</h3>
+                    <label for="update_id_p">Código profesor:</label><br>
+                    <input type="text" id="update_id_p" name="id_p"><br>
+                    <label for="update_cod_a">codigo asignatura:</label><br>
+                    <input type="text" id="update_cod_a" name="cod_a"><br>
+                    <label for="update_grupo">Grupo:</label><br>
+                    <input type="text" id="update_grupo" name="grupo"><br>
+                    <label for="update_horario">Horario:</label><br>
+                    <input type="text" id="update_horario" name="horario"><br>
+                    <input type="submit" value="Actualizar">
+                </form>
+            </div>
+
+            <div id="delete" style="display: none;">
+                <form id="estudianteFormDelete">
+                    <h3>Eliminar Grupo</h3>
+                    <label for="delete_grupo">Grupo:</label><br>
+                    <input type="text" id="delete_grupo" name="grupo"><br>
+                    <input type="submit" value="Eliminar">
+                </form>
+            </div>
         </div>
     </main>
     <script>
@@ -100,6 +115,12 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log("Imparte encontrado:", data);
+                    const estudianteInfo = document.getElementById("estudianteInfo").innerHTML = `
+                        <p><strong>Profesor:</strong> ${data.data.id_p}</p>
+                        <p><strong>Asignatura:</strong> ${data.data.cod_a}</p>
+                        <p><strong>Grupo:</strong> ${data.data.grupo}</p>
+                        <p><strong>Horario:</strong> ${data.data.horario}</p>
+                    `;
                 })
                 .catch(error => console.error("Error:", error));
 
@@ -154,6 +175,30 @@
 
             document.getElementById("delete_grupo").value = "";            
         });
+        function mostrarFormulario() {
+            document.getElementById('pust').style.display = 'block';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function buscarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'block';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function actualizarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        function eliminarFormulario() {
+            document.getElementById('pust').style.display = 'none';
+            document.getElementById('get').style.display = 'none';
+            document.getElementById('put').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
     </script>
 </body>
 </html>
