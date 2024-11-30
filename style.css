@@ -78,6 +78,28 @@ h1::before{
         left: 50%;
     }
 }
+h2 {
+    margin: 10px;
+    animation: float 2s infinite ease-in-out alternate;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    cursor: pointer; 
+    color: #007BFF;
+    font-size: 2rem; 
+    text-align: center;
+}
+
+h2:nth-child(odd) {
+    animation-delay: 0.5s;
+    color: #007BFF; 
+}
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-15px); 
+    }
+}
 
 form {
     margin-top: 10px;
