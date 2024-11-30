@@ -149,7 +149,7 @@
                 body: JSON.stringify(profesor),
             })
                 .then(response => response.json())
-                .then(data => alert('Profesor actualizado:', data))
+                .then(data => console.log('Profesor actualizado:', data))
                 .catch(error => console.error('Error:', error));
                 document.getElementById('update_id_p').value = '';
                 document.getElementById('update_nom_p').value = '';

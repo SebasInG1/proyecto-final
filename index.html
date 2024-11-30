@@ -167,8 +167,13 @@
                 body: JSON.stringify(estudiante),
             })
                 .then(response => response.json())
-                .then(data => alert('Estudiante actualizado:', data))
+                .then(data => console.log('Estudiante actualizado:', data))
                 .catch(error => alert('Error:', error));
+                document.getElementById('update_cod_e').value = '';
+                document.getElementById('update_nom_e').value = '';
+                document.getElementById('update_dir_e').value = '';
+                document.getElementById('update_tel_e').value = '';
+                document.getElementById('update_fech_nac').value = '';
         });
 
         // Eliminar Estudiante (DELETE)

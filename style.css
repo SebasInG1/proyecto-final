@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Parkinsans:wght@300..800&display=swap');
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 0;
+    padding: 20px 0 0 0;
     background-color: #000;
     color: #fff;
+    font-family: "Parkinsans", sans-serif;
 }
 button{
     background-color: #080350;
@@ -17,8 +19,6 @@ button{
 button:hover{
     background-color: #5d5a86;
 }
-
-/* Estilo del header cuando se vuelve fijo */
 
 nav{
     background: #121125;
@@ -34,6 +34,7 @@ nav{
     border-radius: 20px;
     width: 95%;
     margin: 0 0 5px 10px;
+    gap: 30px;
 }
 
 nav a{

@@ -19,7 +19,7 @@
     <main>
         <div class="container">
             <h1>Imparte</h1>
-            <p>Por favor, llena la siguiente información para registrar un nuevo estudiante:</p>
+            <p>Por favor, llena la siguiente información para registrar un nuevo grupo con su horario:</p>
             
             <button onclick="mostrarFormulario()">Crear</button>
             <button onclick="buscarFormulario()">Buscar</button>
@@ -130,6 +130,8 @@
         document.getElementById("estudianteFormPut").addEventListener("submit", function(event) {
             event.preventDefault();
             
+            const grupo = document.getElementById("update_grupo").value;
+
             const imparte = {
                 id_p: document.getElementById("update_id_p").value,
                 cod_a: document.getElementById("update_cod_a").value,
@@ -137,7 +139,7 @@
                 horario: document.getElementById("update_horario").value
             };
             
-            fetch("http://localhost:3000/imparte", {
+            fetch(`http://localhost:3000/imparte/${grupo}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -145,9 +147,7 @@
                 body: JSON.stringify(imparte)
             })
                 .then(response => response.json())
-                .then(data => {
-                    alert("Imparte actualizado:", data);
-                })
+                .then(data => console.log("Imparte actualizado:", data))
                 .catch(error => console.error("Error:", error));
 
             document.getElementById("update_id_p").value = "";
